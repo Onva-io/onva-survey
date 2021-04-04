@@ -17,7 +17,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "yarn build-production",
+    "build-env": "bash -ac 'source .env.${REACT_APP_ENV}; react-scripts build'",
+    "build-bleeding": "REACT_APP_ENV=bleeding yarn build-env",
+    "build-production": "REACT_APP_ENV=production yarn build-env",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
