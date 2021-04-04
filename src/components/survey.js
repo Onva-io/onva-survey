@@ -8,6 +8,9 @@ import { withStyles } from "@material-ui/core/styles";
 import Slide from '@material-ui/core/Slide';
 
 const styles = theme => ({
+    actions: {
+        marginTop: theme.spacing(2),
+    },
 });
 
 class Survey extends Component {
@@ -50,7 +53,7 @@ class Survey extends Component {
         const questions = this.props.submission.questions;
         const locale = getLocale(this.props.locale, survey.locales);
         const me = this;
-        // const { classes } = this.props;
+        const { classes } = this.props;
         const slideQuestions = (this.state.previousQuestions[0].question_id !== questions[0].question_id);
 
         return (
@@ -88,7 +91,6 @@ class Survey extends Component {
                         enter={slideQuestions}
                         exit={slideQuestions}
                         in={true}
-                        onExited={() => console.log('exited')}
                     >
                         <div>
                     {questions.map(function (question) {
@@ -105,7 +107,7 @@ class Survey extends Component {
                         </div>
                     </Slide>
                     )}
-                    <div className="actions">
+                    <div className={classes.actions}>
                         <Button
                             variant="contained"
                             color="primary"

@@ -4,6 +4,14 @@ import Radio from '@material-ui/core/Radio';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = theme => ({
+    formControl: {
+        margin: theme.spacing(1),
+    },
+});
 
 class SingleChoiceAnswer extends Component {
     constructor() {
@@ -30,12 +38,14 @@ class SingleChoiceAnswer extends Component {
     render() {
         const answer = this.props.answer;
         const locale = getLocale(this.props.locale, answer.locales);
+        const { classes } = this.props;
 
         // FIXME: currently if an error appears then it must be associated with
         // the more details, so we make that assumption
 
         return (
-            <div className="answer">
+            <div className={classes.answer}>
+                <FormControl>
                 <FormControlLabel
                     control={
                         <Radio
@@ -46,6 +56,7 @@ class SingleChoiceAnswer extends Component {
                 />
                 {(this.props.checked && answer.more_detail) ? (
                     <TextField
+                        variant="outlined"
                         label="Provide more details"
                         value={this.state.more_detail}
                         onChange={(e) => this.handleMoreDetailsChange(e)}
@@ -54,6 +65,7 @@ class SingleChoiceAnswer extends Component {
                         required
                     />
                 ) : null}
+                </FormControl>
             </div>
         );
     }
@@ -98,12 +110,13 @@ class MultipleChoiceAnswer extends Component {
     render() {
         const answer = this.props.answer;
         const locale = getLocale(this.props.locale, answer.locales);
+        const { classes } = this.props;
 
         // FIXME: currently if an error appears then it must be associated with
         // the more details, so we make that assumption
 
         return (
-            <div className="answer">
+            <div className={classes.answer}>
                 <FormControlLabel
                     control={
                         <Checkbox
@@ -115,6 +128,7 @@ class MultipleChoiceAnswer extends Component {
                 />
                 {(this.state.checked && answer.more_detail) ? (
                     <TextField
+                        variant="outlined"
                         label="Provide more details"
                         value={this.state.more_detail}
                         onChange={(e) => this.handleMoreDetailsChange(e)}
@@ -127,6 +141,9 @@ class MultipleChoiceAnswer extends Component {
         );
     }
 }
+
+SingleChoiceAnswer = withStyles(styles)(SingleChoiceAnswer);
+MultipleChoiceAnswer = withStyles(styles)(MultipleChoiceAnswer);
 
 export {
     SingleChoiceAnswer,
