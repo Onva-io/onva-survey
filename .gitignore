@@ -26,3 +26,5 @@ yarn-error.log*
 Makefile
 
 *.swp
+
+package-lock.json
