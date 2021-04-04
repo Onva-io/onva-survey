@@ -44,16 +44,16 @@ class SingleChoiceAnswer extends Component {
                     }
                     label={locale.content}
                 />
-                {this.props.checked && answer.more_detail && (
+                {(this.props.checked && answer.more_detail) ? (
                     <TextField
                         label="Provide more details"
                         value={this.state.more_detail}
                         onChange={(e) => this.handleMoreDetailsChange(e)}
                         error={Boolean(this.props.errors && this.props.errors.message)}
-                        helperText={this.props.errors && this.props.errors.message}
+                        helperText={this.props.errors ? this.props.errors.message : null}
                         required
                     />
-                )}
+                ) : null}
             </div>
         );
     }
@@ -113,7 +113,7 @@ class MultipleChoiceAnswer extends Component {
                     }
                     label={locale.content}
                 />
-                {this.state.checked && answer.more_detail && (
+                {(this.state.checked && answer.more_detail) ? (
                     <TextField
                         label="Provide more details"
                         value={this.state.more_detail}
@@ -122,7 +122,7 @@ class MultipleChoiceAnswer extends Component {
                         helperText={this.props.errors && this.props.errors.message}
                         required
                     />
-                )}
+                ) : null}
             </div>
         );
     }

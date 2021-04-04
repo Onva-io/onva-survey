@@ -50,9 +50,9 @@ class Survey extends Component {
             <Centred>
                 <div className="survey">
                     <h1>{locale.title}</h1>
-                    {this.props.errors && this.props.errors.message && (
+                    {(this.props.errors && this.props.errors.message) ? (
                         <Alert severity="error">{this.props.errors.message}</Alert>
-                    )}
+                    ) : null}
                     <div className="questions">
                     {questions.map(function (question) {
                         return (

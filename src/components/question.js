@@ -35,12 +35,12 @@ class Question extends Component {
         return (
             <div className="question">
                 <h2>{locale.content}</h2>
-                {locale.pre_text && (
+                {locale.pre_text ? (
                     <p>{locale.pre_text}</p>
-                )}
-                {me.props.errors && me.props.errors.message && (
+                ) : null}
+                {(me.props.errors && me.props.errors.message) ? (
                     <Alert severity="error">{me.props.errors.message}</Alert>
-                )}
+                ) : null}
                 <div className="answers">
                     <AnswerGroup
                         answers={question.answers}
@@ -49,9 +49,9 @@ class Question extends Component {
                         errors={me.props.errors}
                     />
                 </div>
-                {locale.pre_text && (
+                {locale.pre_text ? (
                     <p>{locale.post_text}</p>
-                )}
+                ) : null}
             </div>
         );
     }
