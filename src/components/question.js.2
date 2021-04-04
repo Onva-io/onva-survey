@@ -1,0 +1,79 @@
+import { Component } from 'react';
+import { getLocale } from '../utils';
+import Answer from './answer';
+import RadioGroup from '@material-ui/core/RadioGroup';
+
+class Question extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            answers: [],
+        };
+    }
+
+    trackAnswer(answer, response) {
+        console.log(response);
+    }
+
+    trackRadio(response) {
+        console.log(response);
+    }
+
+    render() {
+        const question = this.props.question;
+        const locale = getLocale(this.props.locale, question.locales);
+        const me = this;
+        const multiple = question.maximum_answers > 1;
+
+        return (
+            <div className="question">
+                <h2>{locale.content}</h2>
+                {locale.pre_text && (
+                    <p>{locale.pre_text}</p>
+                )}
+                <div className="answers">
+                {
+                    multiple ?
+                    (
+                        question.answers.map(function (answer) {
+                            return (
+                                <Answer
+                                    key={"answer-" + answer.answer_id}
+                                    answer={answer}
+                                    locale={me.props.locale}
+                                    onChange={(response) => me.trackAnswer(answer, response)}
+                                    multiple={true}
+                                />
+                            );
+                        })
+                    ) :
+                    (
+                        <RadioGroup
+                            onChange={(response) => me.trackRadio(response)}
+                            label="Choose one"
+                        >
+                        {question.answers.map(function (answer) {
+                            return (
+                                <Answer
+                                    key={"answer-" + answer.answer_id}
+                                    answer={answer}
+                                    locale={me.props.locale}
+                                    onChange={(response) => me.trackAnswer(answer, response)}
+                                />
+                            );
+                        })}
+                        </RadioGroup>
+                    )
+                }
+                </div>
+                {locale.pre_text && (
+                    <p>{locale.post_text}</p>
+                )}
+            <pre>{JSON.stringify(this.props.question, null, 4)}</pre>
+            </div>
+        );
+    }
+}
+
+export default Question;
