@@ -44,7 +44,7 @@ class Survey extends Component {
         const questions = this.props.submission.questions;
         const locale = getLocale(this.props.locale, survey.locales);
         const me = this;
-        const { classes } = this.props;
+        // const { classes } = this.props;
 
         return (
             <Centred>

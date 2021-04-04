@@ -15,7 +15,7 @@ class NotFound extends Component {
         return (
             <Centred>
                 <div className={classes.centred}>
-                    <img src="https://static.onva.io/logo-200x47.png"/>
+                    <img src="https://static.onva.io/logo-200x47.png" alt="onva logo"/>
                     <h1>Survey not found</h1>
                     <p>
                         We can't find the survey that you've referenced.

@@ -19,7 +19,7 @@ class SurveyIntro extends Component {
         return (
             <Centred>
                 <div className={classes.logo}>
-                    <img src="https://static.onva.io/logo-200x47.png"/>
+                    <img src="https://static.onva.io/logo-200x47.png" alt="onva logo"/>
                 </div>
                 <div className="survey intro">
                     <h1>{locale.title}</h1>
