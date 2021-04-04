@@ -81,7 +81,7 @@ class Serve extends Component {
             const responses = me.state.responses[question.question_id] || [];
 
             if (question.minimum_answers > responses.length) {
-                if (question.minimum_answers == 1) {
+                if (question.minimum_answers === 1) {
                     errors[question.question_id] = {
                         message: 'Please provide at least 1 answer',
                     };
@@ -93,7 +93,7 @@ class Serve extends Component {
             }
 
             if (question.maximum_answers !== null && question.maximum_answers < responses.length) {
-                if (question.maximum_answers == 1) {
+                if (question.maximum_answers === 1) {
                     errors[question.question_id] = {
                         message: 'Please provide at most 1 answer',
                     };
@@ -151,7 +151,7 @@ class Serve extends Component {
                             submission: data,
                             loading: false,
                         });
-                    } else if (response.status == 400) {
+                    } else if (response.status === 400) {
                         let errors = {
                             message: "",
                             questions: {},
@@ -183,7 +183,7 @@ class Serve extends Component {
                                         const answer = question.answers[answerIndex];
                                         let message = 'Please check your answers';
 
-                                        if (fields[4] == 'more_details') {
+                                        if (fields[4] === 'more_details') {
                                             message = 'Please provide some details';
                                         }
 
@@ -226,7 +226,6 @@ class Serve extends Component {
             );
         }
 
-        let survey;
         const useLocale = 'en';
 
         if (this.state.submission !== null) {

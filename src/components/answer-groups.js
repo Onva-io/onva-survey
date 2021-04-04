@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import { SingleChoiceAnswer, MultipleChoiceAnswer } from './answers';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
@@ -24,10 +23,6 @@ class SingleChoiceAnswerGroup extends Component {
                 answer_id: answer_id,
             },
             function () {
-                const answers = [
-                    this.state,
-                ];
-
                 me.props.onChange([ this.state ]);
             }
         );
@@ -41,10 +36,6 @@ class SingleChoiceAnswerGroup extends Component {
                 more_detail: response.more_detail,
             },
             function () {
-                const answers = [
-                    this.state,
-                ];
-
                 me.props.onChange([ this.state ]);
             }
         );

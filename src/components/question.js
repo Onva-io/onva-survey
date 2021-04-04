@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { getLocale } from '../utils';
 import { SingleChoiceAnswerGroup, MultipleChoiceAnswerGroup } from './answer-groups';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import Alert from '@material-ui/lab/Alert';
 
 class Question extends Component {

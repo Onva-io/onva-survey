@@ -98,7 +98,6 @@ class MultipleChoiceAnswer extends Component {
     render() {
         const answer = this.props.answer;
         const locale = getLocale(this.props.locale, answer.locales);
-        const me = this;
 
         // FIXME: currently if an error appears then it must be associated with
         // the more details, so we make that assumption
