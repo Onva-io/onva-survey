@@ -6,6 +6,9 @@ import SurveyComplete from '../components/complete';
 import Loading from '../components/loading';
 import { getLocale } from '../utils';
 import { withRouter } from "react-router";
+import Slide from '@material-ui/core/Slide';
+
+const useLocale = 'en';
 
 class Serve extends Component {
     constructor(props) {
@@ -13,7 +16,7 @@ class Serve extends Component {
 
         this.state = {
             loading: true,
-            introShown: false,
+            step: 0,
             surveyUuid: props.match.params.surveyUuid,
             submission: null,
             responses: {},
@@ -146,7 +149,9 @@ class Serve extends Component {
                     const data = await response.json();
 
                     if (response.ok) {
+
                         me.setState({
+                            step: -1,
                             responses: {},
                             submission: data,
                             loading: false,
@@ -226,43 +231,48 @@ class Serve extends Component {
             );
         }
 
-        const useLocale = 'en';
+        if (this.state.submission === null) {
+            return (<Loading open={true} />);
+        }
 
-        if (this.state.submission !== null) {
-            if (!this.state.submission.questions.length) {
-                return (
-                    <SurveyComplete
-                        submission={this.state.submission}
-                        locale={useLocale}
-                    />
-                );
-            }
-
+        if (this.state.step == -1) {
             const survey = this.state.submission.survey;
             const locale = getLocale(useLocale, survey.locales);
 
-            if (!this.state.introShown && locale.pre_text) {
-                return (
-                    <SurveyIntro
-                        survey={survey}
-                        locale={useLocale}
-                        onNext={() => this.setState({ introShown: true })}
-                    />
-                );
-            }
+            this.setState({
+                step: locale.pre_text ? 0 : 1,
+            });
         }
 
         return (
             <>
-                <Loading open={this.state.loading} />
-                {this.state.submission !== null && (
-                <Survey
-                    submission={this.state.submission}
-                    onChange={(data) => this.onChange(data)}
-                    onSubmit={() => this.onSubmit()}
-                    locale={useLocale}
-                    errors={this.state.errors}
-                />
+                {this.state.step <= 1 && (
+                    <Slide direction={this.state.step === 0 ? "up": "down"} in={this.state.step === 0} unmountOnExit>
+                        <SurveyIntro
+                            survey={this.state.submission.survey}
+                            locale={useLocale}
+                            onNext={() => this.setState({ step: 1 })}
+                        />
+                    </Slide>
+                )}
+                {this.state.submission.questions.length && this.state.step >= 1 && (
+                    <Slide direction={this.state.submission.questions.length > 0 ? "up": "down"} in={this.state.submission.questions.length > 0} unmountOnExit>
+                        <Survey
+                            submission={this.state.submission}
+                            onChange={(data) => this.onChange(data)}
+                            onSubmit={() => this.onSubmit()}
+                            locale={useLocale}
+                            errors={this.state.errors}
+                        />
+                    </Slide>
+                )}
+                {!this.state.submission.questions.length && (
+                <Slide direction="down" in={true}>
+                    <SurveyComplete
+                        submission={this.state.submission}
+                        locale={useLocale}
+                    />
+                </Slide>
                 )}
             </>
         );
