@@ -110,6 +110,7 @@ class Survey extends Component {
                             variant="contained"
                             color="primary"
                             onClick={() => this.onNext()}
+                            disabled={this.props.loading}
                         >
                             Next
                         </Button>

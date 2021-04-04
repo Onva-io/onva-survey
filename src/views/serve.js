@@ -262,6 +262,7 @@ class Serve extends Component {
                             onSubmit={() => this.onSubmit()}
                             locale={useLocale}
                             errors={this.state.errors}
+                            loading={this.state.loading}
                         />
                     </Slide>
                 ) : null}
