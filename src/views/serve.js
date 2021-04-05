@@ -230,13 +230,10 @@ class Serve extends Component {
             );
         }
 
-        if (this.state.submission === null) {
-            return (<Loading open={true} />);
-        }
-
         return (
             <>
-                {(this.state.step <= 1 && !this.state.introShown) ? (
+                <Loading open={this.state.submission === null || this.state.loading}/>
+                {(this.state.submission !== null && this.state.step <= 1 && !this.state.introShown) ? (
                     <Slide 
                         direction={this.state.step === 0 ? "up": "down"}
                         in={this.state.step === 0}
@@ -250,7 +247,7 @@ class Serve extends Component {
                         />
                     </Slide>
                 ) : null}
-                {(this.state.submission.questions.length && this.state.step >= 1) ? (
+                {(this.state.submission !== null && this.state.submission.questions.length && this.state.step >= 1) ? (
                     <Slide
                         direction={this.state.submission.questions.length > 0 ? "up": "down"}
                         in={this.state.submission.questions.length > 0}
@@ -266,7 +263,7 @@ class Serve extends Component {
                         />
                     </Slide>
                 ) : null}
-                {!this.state.submission.questions.length ? (
+                {this.state.submission !== null && !this.state.submission.questions.length ? (
                 <Slide direction="up" in={true}>
                     <SurveyComplete
                         submission={this.state.submission}
