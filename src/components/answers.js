@@ -8,8 +8,11 @@ import FormControl from '@material-ui/core/FormControl';
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
-    formControl: {
+    answer: {
         margin: theme.spacing(1),
+    },
+    moreDetail: {
+        display: 'block',
     },
 });
 
@@ -45,7 +48,6 @@ class SingleChoiceAnswer extends Component {
 
         return (
             <div className={classes.answer}>
-                <FormControl>
                 <FormControlLabel
                     control={
                         <Radio
@@ -56,6 +58,7 @@ class SingleChoiceAnswer extends Component {
                 />
                 {(this.props.checked && answer.more_detail) ? (
                     <TextField
+                        classes={classes.moreDetail}
                         variant="outlined"
                         label="Provide more details"
                         value={this.state.more_detail}
@@ -65,7 +68,6 @@ class SingleChoiceAnswer extends Component {
                         required
                     />
                 ) : null}
-                </FormControl>
             </div>
         );
     }
