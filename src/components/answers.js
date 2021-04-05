@@ -9,7 +9,6 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
     answer: {
-        margin: theme.spacing(1),
     },
     moreDetail: {
         display: 'block',
@@ -58,7 +57,7 @@ class SingleChoiceAnswer extends Component {
                 />
                 {(this.props.checked && answer.more_detail) ? (
                     <TextField
-                        classes={classes.moreDetail}
+                        className={classes.moreDetail}
                         variant="outlined"
                         label="Provide more details"
                         value={this.state.more_detail}
