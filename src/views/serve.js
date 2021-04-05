@@ -6,6 +6,7 @@ import SurveyComplete from '../components/complete';
 import Loading from '../components/loading';
 import { withRouter } from "react-router";
 import Slide from '@material-ui/core/Slide';
+import { warning } from '../rollbar';
 
 const useLocale = 'en';
 
@@ -207,6 +208,8 @@ class Serve extends Component {
                         } else {
                             // Questions have already been submitted - $question_id
                             errors.message = 'An error has occurred, please reload';
+
+                            warning('Unexpected survey error', { data: data, status: response.status });
                         }
 
                         me.setState({
