@@ -70,9 +70,13 @@ class Serve extends Component {
     }
 
     onChange(data) {
-        this.setState({
-            responses: data,
-        });
+        if (!this.state.loading) {
+            this.setState({
+                responses: data,
+            });
+        } else {
+            console.warn('dropping onchange due to loading');
+        }
     }
 
     onSubmit() {
