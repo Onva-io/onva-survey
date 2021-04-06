@@ -1,6 +1,10 @@
 import { Component } from 'react';
 import { getLocale } from '../utils';
-import { SingleChoiceAnswerGroup, MultipleChoiceAnswerGroup } from './answer-groups';
+import {
+    SingleChoiceAnswerGroup,
+    MultipleChoiceAnswerGroup,
+    DropdownAnswerGroup,
+} from './answer-groups';
 import Alert from '@material-ui/lab/Alert';
 
 class Question extends Component {
@@ -30,7 +34,22 @@ class Question extends Component {
         const locale = getLocale(this.props.locale, question.locales);
         const me = this;
         const multiple = !(question.maximum_answers === 1);
-        const AnswerGroup = multiple ? MultipleChoiceAnswerGroup : SingleChoiceAnswerGroup;
+        const style_single = 'single';
+        const style_multiple = 'multiple';
+        const style_dropdown = 'dropdown';
+
+        let AnswerGroup;
+
+        if (question.metadata._style) {
+            AnswerGroup = {
+                single: SingleChoiceAnswerGroup,
+                multiple: MultipleChoiceAnswerGroup,
+                dropdown: DropdownAnswerGroup,
+
+            }[question.metadata._style];
+        } else {
+            AnswerGroup = multiple ? MultipleChoiceAnswerGroup : SingleChoiceAnswerGroup;
+        }
 
         return (
             <div className="question">

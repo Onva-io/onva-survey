@@ -3,6 +3,24 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import { SingleChoiceAnswer, MultipleChoiceAnswer } from './answers';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import { getLocale } from '../utils';
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = theme => ({
+    formControl: {
+        width: '100%',
+    },
+    answer: {
+    },
+    moreDetail: {
+        marginTop: theme.spacing(1),
+        display: 'block',
+    },
+});
 
 class SingleChoiceAnswerGroup extends Component {
     constructor(props) {
@@ -46,7 +64,7 @@ class SingleChoiceAnswerGroup extends Component {
 
         return (
             <FormControl component="fieldset">
-                <FormLabel component="legend">Choose one</FormLabel>
+                <FormLabel required component="legend">Choose one</FormLabel>
                 <RadioGroup
                     onChange={(e) => this.handleChange(e)}
                     value={this.state.answer_id}
@@ -130,7 +148,95 @@ class MultipleChoiceAnswerGroup extends Component {
     }
 }
 
+class DropdownAnswerGroup extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            answer_id: "",
+            more_detail: "",
+        };
+    }
+
+    handleChange(e) {
+        const answer_id = e.target.value;
+        const me = this;
+
+        this.setState(
+            {
+                answer_id: answer_id,
+                more_detail: "",
+            },
+            function () {
+                me.props.onChange([ this.state ]);
+            }
+        );
+    }
+
+    handleMoreDetailsChange(e) {
+        const me = this;
+
+        this.setState(
+            {
+                more_detail: e.target.value
+            },
+            function() {
+                me.props.onChange([ this.state ]);
+            }
+        );
+    }
+
+    render() {
+        const me = this;
+        const { classes } = this.props;
+
+        const activeAnswer = this.props.answers.filter(function (answer) {
+            return answer.answer_id === me.state.answer_id;
+        });
+
+        return (
+            <FormControl className={classes.formControl}>
+                <InputLabel
+                    required
+                    id={this.props.answers[0].answer_id + '-label'}
+                >Choose one</InputLabel>
+                <Select
+                    labelId={this.props.answers[0].answer_id + '-label'}
+                    required
+                    value={this.state.answer_id}
+                    onChange={(e) => this.handleChange(e)}
+                >
+                {
+                    this.props.answers.map(function (answer) {
+                        const locale = getLocale(me.props.locale, answer.locales);
+
+                        return (
+                    <MenuItem value={answer.answer_id}>{locale.content}</MenuItem>
+                        );
+                    })
+                }
+                </Select>
+            {(activeAnswer.length > 0 && activeAnswer[0].answer_id == this.state.answer_id && activeAnswer[0].more_detail) ? (
+                <TextField
+                    className={classes.moreDetail}
+                    variant="outlined"
+                    label="Provide more details"
+                    value={this.state.more_detail}
+                    onChange={(e) => this.handleMoreDetailsChange(e)}
+                    error={Boolean(this.props.errors && this.props.errors.message)}
+                    helperText={this.props.errors ? this.props.errors.message : null}
+                    required
+                />
+            ) : null}
+            </FormControl>
+        );
+    }
+}
+
+DropdownAnswerGroup = withStyles(styles)(DropdownAnswerGroup);
+
 export {
     SingleChoiceAnswerGroup,
     MultipleChoiceAnswerGroup,
+    DropdownAnswerGroup,
 };
