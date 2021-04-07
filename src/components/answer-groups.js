@@ -153,36 +153,51 @@ class SliderAnswerGroup extends Component {
     constructor(props) {
         super(props);
 
+        const defaultAnswerIdx = parseInt((this.props.answers.length + 1) / 2);
+        const defaultAnswer = this.props.answers[defaultAnswerIdx];
+
         this.state = {
-            answer_id: "",
+            answer_index: defaultAnswerIdx,
+            answer_id: defaultAnswer.answer_id,
             more_detail: "",
         };
     }
 
-    updateAnswerId(answer_id) {
-        console.log(answer_id);
+    componentDidMount() {
+        this.updateState({});
+    }
+
+    updateState(opts) {
         const me = this;
 
-        this.setState(
+        this.setState(opts,
+            function () {
+                me.props.onChange([
+                    {
+                        answer_id: me.state.answer_id,
+                        more_detail: me.state.more_detail,
+                    }
+                ]);
+            }
+        );
+    }
+
+    updateAnswerNumber(num) {
+        const answer_id = this.props.answers[num].answer_id
+
+        this.updateState(
             {
+                answer_index: num,
                 answer_id: answer_id,
                 more_detail: "",
-            },
-            function () {
-                me.props.onChange([ this.state ]);
             }
         );
     }
 
     handleMoreDetailsChange(e) {
-        const me = this;
-
-        this.setState(
+        this.updateState(
             {
                 more_detail: e.target.value
-            },
-            function() {
-                me.props.onChange([ this.state ]);
             }
         );
     }
@@ -191,9 +206,7 @@ class SliderAnswerGroup extends Component {
         const me = this;
         const { classes } = this.props;
 
-        const activeAnswer = this.props.answers.filter(function (answer) {
-            return answer.answer_id === me.state.answer_id;
-        });
+        let activeAnswer = this.props.answers[this.state.answer_index];
 
         const labels = this.props.answers.map(function(answer) {
             const locale = getLocale(me.props.locale, answer.locales);
@@ -211,7 +224,7 @@ class SliderAnswerGroup extends Component {
                     id={this.props.answers[0].answer_id + '-label'}
                 >Choose one</p>
                 <Slider
-                    defaultValue={parseInt((this.props.answers.length + 1) / 2)}
+                    defaultValue={this.state.answer_index}
                     getAriaValueText={valuetext}
                     valueLabelFormat={valuetext}
                     aria-labelledby={this.props.answers[0].answer_id + '-label'}
@@ -220,9 +233,9 @@ class SliderAnswerGroup extends Component {
                     marks
                     min={0}
                     max={this.props.answers.length - 1}
-                    onChangeCommitted={(e, num) => this.updateAnswerId(this.props.answers[num].answer_id)}
+                    onChangeCommitted={(e, num) => this.updateAnswerNumber(num)}
                 />
-            {(activeAnswer.length > 0 && activeAnswer[0].answer_id === this.state.answer_id && activeAnswer[0].more_detail) ? (
+            {(activeAnswer.answer_id === this.state.answer_id && activeAnswer.more_detail) ? (
                 <TextField
                     className={classes.moreDetail}
                     variant="outlined"

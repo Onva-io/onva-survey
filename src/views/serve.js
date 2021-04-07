@@ -82,7 +82,10 @@ class Serve extends Component {
 
     onSubmit() {
         // TODO check there are some responses
-        var errors = {};
+        var errors = {
+            questions: {},
+            message: "",
+        };
         const me = this;
 
         this.state.submission.questions.forEach(function (question) {
@@ -90,11 +93,11 @@ class Serve extends Component {
 
             if (question.minimum_answers > responses.length) {
                 if (question.minimum_answers === 1) {
-                    errors[question.question_id] = {
+                    errors.questions[question.question_id] = {
                         message: 'Please provide at least 1 answer',
                     };
                 } else {
-                    errors[question.question_id] = {
+                    errors.questions[question.question_id] = {
                         message: `Please provide at least ${question.minimum_answers} answers`,
                     };
                 }
@@ -102,18 +105,18 @@ class Serve extends Component {
 
             if (question.maximum_answers !== null && question.maximum_answers < responses.length) {
                 if (question.maximum_answers === 1) {
-                    errors[question.question_id] = {
+                    errors.questions[question.question_id] = {
                         message: 'Please provide at most 1 answer',
                     };
                 } else {
-                    errors[question.question_id] = {
+                    errors.questions[question.question_id] = {
                         message: `Please provide at most ${question.maximum_answers} answers`,
                     };
                 }
             }
         });
 
-        if (Object.keys(errors).length > 0) {
+        if (Object.keys(errors.questions).length > 0) {
             this.setState({
                 errors: errors,
             });
