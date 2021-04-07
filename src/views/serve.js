@@ -7,6 +7,7 @@ import Loading from '../components/loading';
 import { withRouter } from "react-router";
 import Slide from '@material-ui/core/Slide';
 import { warning } from '../rollbar';
+import uuid from 'react-uuid';
 
 const useLocale = 'en';
 
@@ -25,6 +26,17 @@ class Serve extends Component {
         };
     }
 
+    getIdentifier() {
+        let identifier = localStorage.getItem('ori');
+        
+        if (!identifier) {
+            identifier = uuid();
+            localStorage.setItem('ori', identifier);
+        }
+
+        return identifier
+    }
+
     async componentDidMount() {
         const me = this;
 
@@ -34,7 +46,7 @@ class Serve extends Component {
             },
             async function() {
                 const payload = {
-                    identifier: null,
+                    identifier: getIdentifier(),
                     metadata: {},
                     targeting: {},
                     locale: "en",
