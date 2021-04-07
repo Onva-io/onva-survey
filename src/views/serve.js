@@ -46,7 +46,7 @@ class Serve extends Component {
             },
             async function() {
                 const payload = {
-                    identifier: getIdentifier(),
+                    identifier: me.getIdentifier(),
                     metadata: {},
                     targeting: {},
                     locale: "en",
