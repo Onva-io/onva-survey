@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
     outer: {
         minHeight: '100vh',
+        maxWidth: '800px',
     },
     inner: {
     },
