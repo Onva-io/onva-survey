@@ -4,6 +4,7 @@ import {
     SingleChoiceAnswerGroup,
     MultipleChoiceAnswerGroup,
     DropdownAnswerGroup,
+    SliderAnswerGroup,
 } from './answer-groups';
 import Alert from '@material-ui/lab/Alert';
 
@@ -34,10 +35,6 @@ class Question extends Component {
         const locale = getLocale(this.props.locale, question.locales);
         const me = this;
         const multiple = !(question.maximum_answers === 1);
-        const style_single = 'single';
-        const style_multiple = 'multiple';
-        const style_dropdown = 'dropdown';
-
         let AnswerGroup;
 
         if (question.metadata._style) {
@@ -45,7 +42,7 @@ class Question extends Component {
                 single: SingleChoiceAnswerGroup,
                 multiple: MultipleChoiceAnswerGroup,
                 dropdown: DropdownAnswerGroup,
-
+                slider: SliderAnswerGroup,
             }[question.metadata._style];
         } else {
             AnswerGroup = multiple ? MultipleChoiceAnswerGroup : SingleChoiceAnswerGroup;
