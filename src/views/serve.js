@@ -105,9 +105,15 @@ class Serve extends Component {
 
             if (question.minimum_answers > responses.length) {
                 if (question.minimum_answers === 1) {
-                    errors.questions[question.question_id] = {
-                        message: 'Please provide at least 1 answer',
-                    };
+                    if (question.maximum_answers === 1) {
+                        errors.questions[question.question_id] = {
+                            message: 'Please provide at least 1 answer',
+                        };
+                    } else {
+                        errors.questions[question.question_id] = {
+                            message: 'Please provide an answer',
+                        };
+                    }
                 } else {
                     errors.questions[question.question_id] = {
                         message: `Please provide at least ${question.minimum_answers} answers`,
